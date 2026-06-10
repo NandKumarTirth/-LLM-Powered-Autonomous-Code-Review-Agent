@@ -1,6 +1,7 @@
 import streamlit as st
 from analyzer import analyze_code
 from report_generator import generate_report
+from llm_reviewer import get_ai_review
 
 st.set_page_config(
     page_title="Autonomous Code Review Agent",
@@ -21,6 +22,9 @@ if uploaded_file:
     code = uploaded_file.read().decode("utf-8")
 
     results = analyze_code(code)
+
+    with st.spinner("🤖 AI is reviewing your code..."):
+        ai_review = get_ai_review(code)
 
     # Metrics
     st.subheader("📊 Analysis Results")
@@ -78,6 +82,12 @@ if uploaded_file:
             st.info(rec)
     else:
         st.success("No recommendations. Code quality looks good!")
+
+    # Gemini AI Review
+    st.subheader("🤖 Gemini AI Review")
+
+    with st.expander("View Detailed AI Review", expanded=True):
+        st.write(ai_review)
 
     # PDF Export
     pdf_file = generate_report(results)

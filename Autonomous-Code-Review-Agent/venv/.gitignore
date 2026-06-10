@@ -1,0 +1,14 @@
+venv/
+__pycache__/
+*.pyc
+
+.env
+
+code_review_report.pdf
+
+reports/
+
+.streamlit/
+
+.idea/
+.vscode/
